@@ -1,0 +1,26 @@
+# Compiled Java class files
+*.class
+
+# Output and test image files (keep test_image.png)
+hidden.png
+hidden2.png
+tampered.png
+test2.png
+
+# Secret and extracted text files
+secret.txt
+secret2.txt
+output.txt
+output2.txt
+tampered_output.txt
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE specific files/folders (optional, but good practice)
+.idea/
+*.iml
+.vscode/
+bin/
+out/
