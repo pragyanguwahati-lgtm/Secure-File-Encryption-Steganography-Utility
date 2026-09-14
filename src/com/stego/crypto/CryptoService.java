@@ -1,12 +1,16 @@
+package com.stego.crypto;
+
+import com.stego.exception.InvalidPasswordException;
+
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
-import javax.crypto.BadPaddingException;
-import java.security.SecureRandom;
 import java.nio.ByteBuffer;
+import java.security.SecureRandom;
 import java.util.Arrays;
 
 public class CryptoService {
@@ -45,7 +49,7 @@ public class CryptoService {
 
     public static byte[] decrypt(byte[] payload, char[] password) throws InvalidPasswordException, Exception {
         if (payload.length < SALT_LENGTH + IV_LENGTH) {
-            throw new Exception("Payload is too short to contain salt and IV.");
+            throw new Exception("Payload is too short to contain valid salt and IV.");
         }
         
         byte[] salt = Arrays.copyOfRange(payload, 0, SALT_LENGTH);
@@ -69,7 +73,6 @@ public class CryptoService {
         PBEKeySpec spec = new PBEKeySpec(password, salt, ITERATIONS, KEY_LENGTH);
         SecretKeyFactory factory = SecretKeyFactory.getInstance(KDF_ALGORITHM);
         byte[] keyBytes = factory.generateSecret(spec).getEncoded();
-        // Clear password from PBEKeySpec
         spec.clearPassword();
         return new SecretKeySpec(keyBytes, "AES");
     }
